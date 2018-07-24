@@ -6,6 +6,7 @@ import collections
 WIDTH = 1024
 HEIGHT = 1024
 root = tk.Tk()
+root.title("McAdams Hall Map")
 nb = ttk.Notebook(root)
 nb.pack()
 #rooms follow format upper left coord, lower right coord
@@ -145,10 +146,16 @@ elevator["3"] = [2.738, 4.302, 3.052, 4.917]
 frame = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map = tk.Canvas(frame, width=WIDTH, height=HEIGHT)
-map.create_rectangle(elevator["1"][0]/10*WIDTH, elevator["1"][1]/10*HEIGHT, elevator["1"][2]/10*WIDTH, elevator["1"][3]/10*HEIGHT, \
-                      fill="#00cec9")
+
 nb.add(frame, text="First Floor")
-map.pack()
+#add the first floor hallways to canvas
+for i, hallway in hallways.items():
+    x1 = hallway[0]/10*WIDTH
+    x2 = hallway[2]/10*WIDTH
+    y1= hallway[1]/10*HEIGHT
+    y2= hallway[3]/10*HEIGHT
+    map.create_rectangle(x1, y1, x2, y2, fill="#b2bec3", outline="")
+#add the first floor rooms to canvas
 for i, room in rooms.items():
     x1 = room[0]/10*WIDTH
     x2 = room[2]/10*WIDTH
@@ -156,18 +163,15 @@ for i, room in rooms.items():
     y2= room[3]/10*HEIGHT
     map.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map.create_text((x1+x2)/2, (y1+y2)/2, text=i)
+#add the first floor elevator to canvas
+ev1 = map.create_rectangle(elevator["1"][0]/10*WIDTH, elevator["1"][1]/10*HEIGHT, elevator["1"][2]/10*WIDTH, elevator["1"][3]/10*HEIGHT, \
+                      fill="#00cec9")
 
-for i, hallway in hallways.items():
-    x1 = hallway[0]/10*WIDTH
-    x2 = hallway[2]/10*WIDTH
-    y1= hallway[1]/10*HEIGHT
-    y2= hallway[3]/10*HEIGHT
-    map.create_rectangle(x1, y1, x2, y2, fill="#b2bec3", outline="")
 
 second_floor = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map2 = tk.Canvas(second_floor, width=WIDTH, height=HEIGHT)
-map2.create_rectangle(elevator["2"][0]/10*WIDTH, elevator["2"][1]/10*HEIGHT, elevator["2"][2]/10*WIDTH, elevator["2"][3]/10*HEIGHT, \
+ev2 = map2.create_rectangle(elevator["2"][0]/10*WIDTH, elevator["2"][1]/10*HEIGHT, elevator["2"][2]/10*WIDTH, elevator["2"][3]/10*HEIGHT, \
                       fill="#00cec9")
 for i, room in rooms2.items():
     x1 = room[0]/10*WIDTH
@@ -176,13 +180,12 @@ for i, room in rooms2.items():
     y2= room[3]/10*HEIGHT
     map2.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map2.create_text((x1+x2)/2, (y1+y2)/2, text=i)
-map2.pack()
 nb.add(second_floor, text="Second Floor")
 
 third_floor = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map3 = tk.Canvas(third_floor, width=WIDTH, height=HEIGHT)
-map3.create_rectangle(elevator["3"][0]/10*WIDTH, elevator["3"][1]/10*HEIGHT, elevator["3"][2]/10*WIDTH, elevator["3"][3]/10*HEIGHT, \
+ev3 = map3.create_rectangle(elevator["3"][0]/10*WIDTH, elevator["3"][1]/10*HEIGHT, elevator["3"][2]/10*WIDTH, elevator["3"][3]/10*HEIGHT, \
                       fill="#00cec9")
 for i, room in rooms3.items():
     x1 = room[0]/10*WIDTH
@@ -191,15 +194,13 @@ for i, room in rooms3.items():
     y2= room[3]/10*HEIGHT
     map3.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map3.create_text((x1+x2)/2, (y1+y2)/2, text=i)
-map3.pack()
 nb.add(third_floor, text="Third Floor")
+map2.bind(ev2, '<Button-1>', nb.select(2))
+map3.bind(ev3, '<Button-1>', nb.select(0))
+map.bind(ev1, '<Button-1>', print("Clicked"))
 
+map.pack()
+map2.pack()
+map3.pack()
 
 root.mainloop()
-# def createRoom(map, room):
-#     #create top line
-#     map.create_line(room[0], room[1], room[2], room[1])
-#     #create left line
-#     map.create_line(room[0], room[1], room[0], room[3])
-#     #create bottom line
-#     map.create_line(room[0], room[3], room[2], room[3])
