@@ -3,6 +3,9 @@
 import tkinter as tk
 from tkinter import ttk
 import collections
+
+def clicked():
+    nb.select(1)
 WIDTH = 1024
 HEIGHT = 1024
 root = tk.Tk()
@@ -195,9 +198,8 @@ for i, room in rooms3.items():
     map3.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map3.create_text((x1+x2)/2, (y1+y2)/2, text=i)
 nb.add(third_floor, text="Third Floor")
-map2.bind(ev2, '<Button-1>', nb.select(2))
-map3.bind(ev3, '<Button-1>', nb.select(0))
-map.bind(ev1, '<Button-1>', print("Clicked"))
+
+map.bind(ev1, '<Button-1>', clicked)
 
 map.pack()
 map2.pack()
