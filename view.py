@@ -8,12 +8,18 @@ HEIGHT = 1024
 root = tk.Tk()
 nb = ttk.Notebook(root)
 nb.pack()
-#rooms follow format upper left coord, lower right coord in inches
+#rooms follow format upper left coord, lower right coord
+#in inches [x1, y1, x2, y2]
+elevator = collections.defaultdict(list)
 rooms = collections.defaultdict(list)
+hallways = collections.defaultdict(list)
 rooms2 = collections.defaultdict(list)
 rooms3 = collections.defaultdict(list)
+closets = collections.defaultdict(list)
+closets2 = collections.defaultdict(list)
+closets3 = collections.defaultdict(list)
 rooms["101"] = [2.101, 6.868, 2.693, 7.459]
-rooms["102"] = [1.103, 6.808, 1.843,7.445]
+rooms["102"] = [1.103, 6.808, 1.843, 7.445]
 rooms["103"] = [2.101, 6.402, 2.485, 6.868]
 rooms["104"] = [1.103, 6.179, 1.843, 6.808]
 rooms["105"] = [2.101, 5.710, 2.485, 6.402]
@@ -59,6 +65,15 @@ rooms["131"] = [8.094, 1.923, 8.864, 2.400]
 rooms["133"] = [8.094, 1.214, 8.864, 1.923]
 rooms["135"] = [8.094, .715, 8.864, 1.214]
 rooms["137"] = [8.094, .05, 8.864, .351]
+#first floor hallways
+hallways["1"] = [7.72, .05, 8.094, 8.298]
+hallways["2"] = [4.6, 4.198, 7.72, 4.541]
+hallways["3"] = [4.6, 4.541, 5.3, 7.326]
+hallways["4"] = [.905, 4.955, 4.6, 5.24]
+hallways["5"] = [1.408, 4.198, 1.777, 4.955]
+hallways["6"] = [3.333, 5.24, 3.562, 7.775]
+hallways["7"] = [1.103, 7.445, 3.562, 7.775]
+hallways["8"] = [1.843, 5.24, 2.101, 7.445]
 #second floor rooms
 rooms2["201"] = [.895, 4.302, 1.781, 4.917]
 rooms2["female_2"] = [1.781, 4.302, 2.273, 4.917]
@@ -84,19 +99,20 @@ rooms2["217"] = [3.968, 6.107, 4.576, 6.545]
 rooms2["218"] = [3.968, 5.685, 4.576, 6.107]
 rooms2["219"] = [3.968, 5.249, 4.576, 5.685]
 rooms2["220"] = [3.968, 4.302, 4.576, 5.249]
-rooms2["221"]
-rooms2["221A"]
-rooms2["222"] = [6.931, 4.541, 7.72, 5.193]
-rooms2["222A"]
-rooms2["223"]
-rooms2["224"]
-rooms2["225"]
-rooms2["226"]
-rooms2["227"]
-rooms2["228"]
-rooms2["229"]
-rooms2["230"]
-rooms2["231"]
+rooms2["221"] = [7.895, 4.541, 8.864, 5.193]
+rooms2["221A"] = [7.895, 5.193, 8.864, 5.752]
+rooms2["222"] = [6.931, 4.541, 7.895, 5.193]
+rooms2["222A"] = [6.931, 5.193, 7.895, 5.752]
+rooms2["223"] = [8.094, 3.343, 8.864, 4.541]
+rooms2["224"] = [6.931, 3.513, 7.72, 3.987]
+rooms2["225"] = [8.094, 2.891, 8.864, 3.343]
+rooms2["226"] = [6.931, 2.248, 7.72, 3.513]
+rooms2["227"] = [8.094, 2.400, 8.864, 2.891]
+rooms2["228"] = [6.931, 1.746, 7.72, 2.248]
+rooms2["229"] = [8.094, 1.923, 8.864, 2.400]
+rooms2["230"] = [6.931, 0.05, 7.895, 1.214]
+rooms2["231"] = [8.094, 1.214, 8.864, 1.604]
+rooms2["232"] = [7.895, 0.05, 8.864, 1.214]
 #third floor rooms
 rooms3["301"] = [.895, 4.302, 1.338, 4.917]
 rooms3["302"] = [1.338, 4.302, 1.781, 4.917]
@@ -122,27 +138,41 @@ rooms3["316"] = [3.968, 6.107, 4.576, 6.545]
 rooms3["317"] = [3.968, 5.685, 4.576, 6.107]
 rooms3["318"] = [3.968, 5.249, 4.576, 5.685]
 rooms3["319"] = [3.968, 4.302, 4.576, 5.249]
-
+#elevator for each Floor
+elevator["1"] = [2.738, 4.198, 3.052, 4.955]
+elevator["2"] = [2.738, 4.302, 3.052, 4.917]
+elevator["3"] = [2.738, 4.302, 3.052, 4.917]
 frame = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map = tk.Canvas(frame, width=WIDTH, height=HEIGHT)
+map.create_rectangle(elevator["1"][0]/10*WIDTH, elevator["1"][1]/10*HEIGHT, elevator["1"][2]/10*WIDTH, elevator["1"][3]/10*HEIGHT, \
+                      fill="#00cec9")
 nb.add(frame, text="First Floor")
 map.pack()
 for i, room in rooms.items():
     x1 = room[0]/10*WIDTH
     x2 = room[2]/10*WIDTH
-    y1= room[1]/10*WIDTH
+    y1= room[1]/10*HEIGHT
     y2= room[3]/10*HEIGHT
     map.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map.create_text((x1+x2)/2, (y1+y2)/2, text=i)
 
+for i, hallway in hallways.items():
+    x1 = hallway[0]/10*WIDTH
+    x2 = hallway[2]/10*WIDTH
+    y1= hallway[1]/10*HEIGHT
+    y2= hallway[3]/10*HEIGHT
+    map.create_rectangle(x1, y1, x2, y2, fill="#b2bec3", outline="")
+
 second_floor = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map2 = tk.Canvas(second_floor, width=WIDTH, height=HEIGHT)
+map2.create_rectangle(elevator["2"][0]/10*WIDTH, elevator["2"][1]/10*HEIGHT, elevator["2"][2]/10*WIDTH, elevator["2"][3]/10*HEIGHT, \
+                      fill="#00cec9")
 for i, room in rooms2.items():
     x1 = room[0]/10*WIDTH
     x2 = room[2]/10*WIDTH
-    y1= room[1]/10*WIDTH
+    y1= room[1]/10*HEIGHT
     y2= room[3]/10*HEIGHT
     map2.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map2.create_text((x1+x2)/2, (y1+y2)/2, text=i)
@@ -152,15 +182,19 @@ nb.add(second_floor, text="Second Floor")
 third_floor = tk.Frame(nb, width=WIDTH, height=HEIGHT)
 
 map3 = tk.Canvas(third_floor, width=WIDTH, height=HEIGHT)
+map3.create_rectangle(elevator["3"][0]/10*WIDTH, elevator["3"][1]/10*HEIGHT, elevator["3"][2]/10*WIDTH, elevator["3"][3]/10*HEIGHT, \
+                      fill="#00cec9")
 for i, room in rooms3.items():
     x1 = room[0]/10*WIDTH
     x2 = room[2]/10*WIDTH
-    y1= room[1]/10*WIDTH
+    y1= room[1]/10*HEIGHT
     y2= room[3]/10*HEIGHT
     map3.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff")
     map3.create_text((x1+x2)/2, (y1+y2)/2, text=i)
 map3.pack()
 nb.add(third_floor, text="Third Floor")
+
+
 root.mainloop()
 # def createRoom(map, room):
 #     #create top line
