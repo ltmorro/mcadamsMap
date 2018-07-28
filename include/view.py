@@ -17,12 +17,12 @@ class View(object):
     def __init__(self, controller):
         self.controller = controller
         self.source = True
-        root = tk.Tk()
-        root.title("McAdams Hall Map")
-        root.bind("<Return>", lambda e: self.findShortest(self.sourceVar.get(), self.destVar.get()))
+        self.root = tk.Tk()
+        self.root.title("McAdams Hall Map")
+        self.root.bind("<Return>", lambda e: self.findShortest(self.sourceVar.get(), self.destVar.get()))
         self.sourceVar = tk.StringVar()
         self.destVar = tk.StringVar()
-        self.selection = tk.Frame(root, width=WIDTH, height=HEIGHT/4)
+        self.selection = tk.Frame(self.root, width=WIDTH, height=HEIGHT/4)
         self.selection.pack(side=tk.TOP)
         self.sourceBut = tk.Button(self.selection, text="Select Starting Point", command=self.selectSource)
         self.sourceBut.pack(side=tk.LEFT)
@@ -34,7 +34,7 @@ class View(object):
         self.dest.pack(side=tk.LEFT)
         self.search = tk.Button(self.selection, text="Find Directions", command=lambda: self.findShortest(self.sourceVar.get(), self.destVar.get()))
         self.search.pack(side=tk.LEFT)
-        self.nb = ttk.Notebook(root)
+        self.nb = ttk.Notebook(self.root)
         self.nb.pack()
         #self.rooms follow format upper left coord, lower right coord
         #in inches [x1, y1, x2, y2]
@@ -274,6 +274,7 @@ class View(object):
         prev = [None, None]
         for step in path:
             if step in self.rooms.keys():
+                self.nb.select(0)
                 room = self.rooms[step]
                 if room[4] == "left":
                     current = [room[0]-.2, (room[1]+room[3])/2]
@@ -287,11 +288,14 @@ class View(object):
                     prev = current
                     continue
                 else:
+                    self.root.after(10000, lambda: self.tick)
                     self.map.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
                                          , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
                     prev = current
+
                     self.map.update()
             if step in self.rooms2.keys():
+                self.nb.select(1)
                 room = self.rooms2[step]
                 if room[4] == "left":
                     current = [room[0]-.2, (room[1]+room[3])/2]
@@ -305,11 +309,12 @@ class View(object):
                     prev = current
                     continue
                 else:
+                    self.root.after(10000, lambda: self.tick)
                     self.map2.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
                                          , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
                     prev = current
                     self.map2.update()
-
+    def tick(self): pass
 if __name__ == "__main__":
     view = View(Controller())
     tk.mainloop()
