@@ -210,7 +210,7 @@ class View(object):
         self.nb.add(self.second_floor, text="Second Floor")
 
         self.third_floor = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
-        self.map2.bind("<Button-1>", self.clicked2)
+        self.map2.bind("<Button-1>", self.clicked)
 
         self.map3 = tk.Canvas(self.third_floor, width=WIDTH, height=HEIGHT)
         ev3 = self.map3.create_rectangle(elevator["3"][0]/10*WIDTH, elevator["3"][1]/10*HEIGHT, elevator["3"][2]/10*WIDTH, elevator["3"][3]/10*HEIGHT, \
@@ -224,7 +224,7 @@ class View(object):
             self.map3.create_text((x1+x2)/2, (y1+y2)/2, text=i)
         self.nb.add(self.third_floor, text="Third Floor")
 
-        self.map3.bind("<Button-1>", self.clicked3)
+        self.map3.bind("<Button-1>", self.clicked)
 
         self.map.pack()
         self.map2.pack()
@@ -237,6 +237,7 @@ class View(object):
         self.source = False
 
     def clicked(self, event):
+<<<<<<< HEAD:include/view.py
         item = self.map.find_closest(event.x, event.y)
         item_type = self.map.type(item)
         if item_type == "rectangle":
@@ -266,6 +267,32 @@ class View(object):
     def findShortest(self, source, dest):
         print(self.controller.findShortest(source, dest))
 
+=======
+        if self.nb.index("current") == 0:
+            item = self.map.find_closest(event.x, event.y)
+            item_type = self.map.type(item)
+            if item_type == "rectangle":
+                if self.source == True:
+                    self.sourceVar.set(self.map.itemcget(item, 'tag').split()[0])
+                else:
+                    self.destVar.set(self.map.itemcget(item, 'tag').split()[0])
+        elif self.nb.index("current") == 1:
+            item = self.map2.find_closest(event.x, event.y)
+            item_type = self.map2.type(item)
+            if item_type == "rectangle":
+                if self.source == True:
+                    self.sourceVar.set(self.map2.itemcget(item, 'tag').split()[0])
+                else:
+                    self.destVar.set(self.map2.itemcget(item, 'tag').split()[0])
+        elif self.nb.index("current") == 2:
+            item = self.map3.find_closest(event.x, event.y)
+            item_type = self.map3.type(item)
+            if item_type == "rectangle":
+                if self.source == True:
+                    self.sourceVar.set(self.map3.itemcget(item, 'tag').split()[0])
+                else:
+                    self.destVar.set(self.map3.itemcget(item, 'tag').split()[0])
+>>>>>>> 295d186c184133e83851a8e264380620c6ba0747:view.py
 
 if __name__ == "__main__":
     view = View(Controller())
