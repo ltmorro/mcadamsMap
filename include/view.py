@@ -6,8 +6,16 @@ import collections
 
 WIDTH = 1024
 HEIGHT = 1024
-class View(object):
+class Controller(object):
     def __init__(self):
+        pass
+
+    def findShortest(self, source, dest):
+        print("Finding path from: " + source + " to " + dest)
+
+class View(object):
+    def __init__(self, controller):
+        self.controller = controller
         self.source = True
         root = tk.Tk()
         root.title("McAdams Hall Map")
@@ -23,6 +31,8 @@ class View(object):
         self.destBut.pack(side=tk.LEFT)
         self.dest = tk.Entry(self.selection, text=self.destVar)
         self.dest.pack(side=tk.LEFT)
+        self.search = tk.Button(self.selection, text="Find Directions", command=lambda: self.findShortest(self.sourceVar.get(), self.destVar.get()))
+        self.search.pack(side=tk.LEFT)
         self.nb = ttk.Notebook(root)
         self.nb.pack()
         #rooms follow format upper left coord, lower right coord
@@ -253,7 +263,10 @@ class View(object):
             else:
                 self.destVar.set(self.map3.itemcget(item, 'tag').split()[0])
 
+    def findShortest(self, source, dest):
+        print(self.controller.findShortest(source, dest))
 
 
-view = View()
-tk.mainloop()
+if __name__ == "__main__":
+    view = View(Controller())
+    tk.mainloop()
