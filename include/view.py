@@ -103,44 +103,44 @@ class View(object):
         hallways["7"] = [1.103, 7.445, 3.562, 7.775]
         hallways["8"] = [1.843, 5.24, 2.101, 7.445]
         #second floor self.rooms
-        self.rooms2["201"] = [.895, 4.302, 1.781, 4.917]
-        self.rooms2["female_2"] = [1.781, 4.302, 2.273, 4.917]
-        self.rooms2["male_2"] = [2.273, 4.302, 2.738, 4.917]
-        self.rooms2["203"] = [.895, 5.183, 1.478, 5.668]
-        self.rooms2["202A"] = [2.713, 5.183, 3.693, 6.586]
-        self.rooms2["202B"] = [1.714, 5.183, 2.713, 5.719]
-        self.rooms2["202C"] = [1.714, 5.719, 2.713, 6.586]
-        self.rooms2["206"] = [1.714, 6.586, 2.713, 7.111]
-        self.rooms2["216"] = [2.713, 6.586, 3.693, 7.111]
-        self.rooms2["204"] = [.895, 5.668, 1.478, 6.132]
-        self.rooms2["205"] = [.895, 6.132, 1.478, 6.586]
-        self.rooms2["207"] = [.895, 6.586, 1.478, 7.382]
-        self.rooms2["208"] = [.895, 7.382, 1.74, 8]
-        self.rooms2["209"] = [1.74, 7.382, 2.27, 8]
-        self.rooms2["210"] = [2.27, 7.382, 2.727, 8]
-        self.rooms2["211"] = [2.727, 7.382, 3.173, 8]
-        self.rooms2["212"] = [3.173, 7.382, 3.700, 8]
-        self.rooms2["213"] = [3.968, 7.480, 4.576, 8]
-        self.rooms2["214"] = [3.968, 7.027, 4.576, 7.480]
-        self.rooms2["215"] = [3.968, 6.545, 4.576, 7.027]
-        self.rooms2["217"] = [3.968, 6.107, 4.576, 6.545]
-        self.rooms2["218"] = [3.968, 5.685, 4.576, 6.107]
-        self.rooms2["219"] = [3.968, 5.249, 4.576, 5.685]
-        self.rooms2["220"] = [3.968, 4.302, 4.576, 5.249]
-        self.rooms2["221"] = [7.895, 4.541, 8.864, 5.193]
-        self.rooms2["221A"] = [7.895, 5.193, 8.864, 5.752]
-        self.rooms2["222"] = [6.931, 4.541, 7.895, 5.193]
-        self.rooms2["222A"] = [6.931, 5.193, 7.895, 5.752]
-        self.rooms2["223"] = [8.094, 3.343, 8.864, 4.541]
-        self.rooms2["224"] = [6.931, 3.513, 7.72, 3.987]
-        self.rooms2["225"] = [8.094, 2.891, 8.864, 3.343]
-        self.rooms2["226"] = [6.931, 2.248, 7.72, 3.513]
-        self.rooms2["227"] = [8.094, 2.400, 8.864, 2.891]
-        self.rooms2["228"] = [6.931, 1.746, 7.72, 2.248]
-        self.rooms2["229"] = [8.094, 1.923, 8.864, 2.400]
-        self.rooms2["230"] = [6.931, 0.05, 7.895, 1.214]
-        self.rooms2["231"] = [8.094, 1.214, 8.864, 1.604]
-        self.rooms2["232"] = [7.895, 0.05, 8.864, 1.214]
+        self.rooms2["201"] = [.895, 4.302, 1.781, 4.917, "bottom"]
+        self.rooms2["female_2"] = [1.781, 4.302, 2.273, 4.917, "bottom"]
+        self.rooms2["male_2"] = [2.273, 4.302, 2.738, 4.917, "bottom"]
+        self.rooms2["203"] = [.895, 5.183, 1.478, 5.668, "right"]
+        self.rooms2["202A"] = [2.713, 5.183, 3.693, 6.586, "right"]
+        self.rooms2["202B"] = [1.714, 5.183, 2.713, 5.719, "left"]
+        self.rooms2["202C"] = [1.714, 5.719, 2.713, 6.586, "top"]
+        self.rooms2["206"] = [1.714, 6.586, 2.713, 7.111, "left"]
+        self.rooms2["216"] = [2.713, 6.586, 3.693, 7.111, "right"]
+        self.rooms2["204"] = [.895, 5.668, 1.478, 6.132, "right"]
+        self.rooms2["205"] = [.895, 6.132, 1.478, 6.586, "right"]
+        self.rooms2["207"] = [.895, 6.586, 1.478, 7.382, "right"]
+        self.rooms2["208"] = [.895, 7.382, 1.74, 8, "top"]
+        self.rooms2["209"] = [1.74, 7.382, 2.27, 8, "top"]
+        self.rooms2["210"] = [2.27, 7.382, 2.727, 8, "top"]
+        self.rooms2["211"] = [2.727, 7.382, 3.173, 8, "top"]
+        self.rooms2["212"] = [3.173, 7.382, 3.700, 8, "top"]
+        self.rooms2["213"] = [3.968, 7.480, 4.576, 8, "left"]
+        self.rooms2["214"] = [3.968, 7.027, 4.576, 7.480, "left"]
+        self.rooms2["215"] = [3.968, 6.545, 4.576, 7.027, "left"]
+        self.rooms2["217"] = [3.968, 6.107, 4.576, 6.545, "left"]
+        self.rooms2["218"] = [3.968, 5.685, 4.576, 6.107, "left"]
+        self.rooms2["219"] = [3.968, 5.249, 4.576, 5.685, "left"]
+        self.rooms2["220"] = [3.968, 4.302, 4.576, 5.249, "bottom"]
+        self.rooms2["221"] = [7.895, 4.541, 8.864, 5.193, "top"]
+        self.rooms2["221A"] = [7.895, 5.193, 8.864, 5.752, "top"]
+        self.rooms2["222"] = [6.931, 4.541, 7.895, 5.193, "top"]
+        self.rooms2["222A"] = [6.931, 5.193, 7.895, 5.752, "top"]
+        self.rooms2["223"] = [8.094, 3.343, 8.864, 4.541, "left"]
+        self.rooms2["224"] = [6.931, 3.513, 7.72, 3.987, "right"]
+        self.rooms2["225"] = [8.094, 2.891, 8.864, 3.343, "left"]
+        self.rooms2["226"] = [6.931, 2.248, 7.72, 3.513, "right"]
+        self.rooms2["227"] = [8.094, 2.400, 8.864, 2.891, "left"]
+        self.rooms2["228"] = [6.931, 1.746, 7.72, 2.248, "right"]
+        self.rooms2["229"] = [8.094, 1.923, 8.864, 2.400, "left"]
+        self.rooms2["230"] = [6.931, 0.05, 7.895, 1.214, "bottom"]
+        self.rooms2["231"] = [8.094, 1.214, 8.864, 1.604, "bottom"]
+        self.rooms2["232"] = [7.895, 0.05, 8.864, 1.214, "bottom"]
         #third floor self.rooms
         self.rooms3["301"] = [.895, 4.302, 1.338, 4.917]
         self.rooms3["302"] = [1.338, 4.302, 1.781, 4.917]
@@ -287,11 +287,28 @@ class View(object):
                     prev = current
                     continue
                 else:
-                    print("Drawing line" + str(prev[0]) + "," + str(prev[1]) + "," +  str(current[0]) + "," +  str(current[1]))
                     self.map.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
                                          , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
                     prev = current
                     self.map.update()
+            if step in self.rooms2.keys():
+                room = self.rooms2[step]
+                if room[4] == "left":
+                    current = [room[0]-.2, (room[1]+room[3])/2]
+                elif room[4] == "right":
+                    current = [room[2]+.2, (room[1]+room[3])/2]
+                elif room[4] == "top":
+                    current = [(room[0]+room[2])/2, room[1]-.2]
+                elif room[4] == "bottom":
+                    current = [(room[0]+room[2])/2, room[3]+.2]
+                if prev[0] == None:
+                    prev = current
+                    continue
+                else:
+                    self.map2.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
+                                         , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
+                    prev = current
+                    self.map2.update()
 
 if __name__ == "__main__":
     view = View(Controller())
