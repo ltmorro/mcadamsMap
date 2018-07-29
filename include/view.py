@@ -17,7 +17,6 @@ class Controller(object):
 class View(object):
     def __init__(self, controller):
         self.controller = controller
-        self.source = True
         self.root = tk.Tk()
         self.root.title("McAdams Hall Map")
         self.root.bind("<Return>", lambda e: self.findShortest(self.sourceVar.get(), self.destVar.get()))
@@ -42,11 +41,16 @@ class View(object):
         elevator = collections.defaultdict(list)
         self.rooms = collections.defaultdict(list)
         hallways = collections.defaultdict(list)
+        hallways2 = collections.defaultdict(list)
+        hallways3 = collections.defaultdict(list)
         self.rooms2 = collections.defaultdict(list)
         self.rooms3 = collections.defaultdict(list)
         closets = collections.defaultdict(list)
         closets2 = collections.defaultdict(list)
         closets3 = collections.defaultdict(list)
+        stairs1 = collections.defaultdict(list)
+        stairs2 = collections.defaultdict(list)
+        stairs3 = collections.defaultdict(list)
         self.rooms["101"] = [2.101, 6.868, 2.693, 7.459, "left"]
         self.rooms["102"] = [1.103, 6.808, 1.843, 7.445, "right"]
         self.rooms["103"] = [2.101, 6.402, 2.485, 6.868, "left"]
@@ -103,6 +107,19 @@ class View(object):
         hallways["6"] = [3.333, 5.24, 3.562, 7.775]
         hallways["7"] = [1.103, 7.445, 3.562, 7.775]
         hallways["8"] = [1.843, 5.24, 2.101, 7.445]
+        hallways["9"] = [8.094, .351, 8.864, .715]
+        #first floor closets
+        closets["1"] = [5.30, 4.541, 6.931, 7.043]
+        closets["2"] = [3.052, 4.198, 3.936, 4.955]
+        closets["3"] = [2.485, 5.24, 2.905, 6.237]
+        closets["4"] = [2.485, 6.237, 2.905, 6.868]
+        closets["5"] = [8.094, 5.459, 8.864, 5.752]
+
+        stairs1["1"] = [.905, 5.24, .905, 3.987, .111, 3.987, .507, 5.24]
+
+        # stairs1["2"] =
+        # stairs1["3"] =
+        # stairs1["4"] =
         #second floor self.rooms
         self.rooms2["201"] = [.895, 4.302, 1.781, 4.917, "bottom"]
         self.rooms2["female_2"] = [1.781, 4.302, 2.273, 4.917, "bottom"]
@@ -142,6 +159,18 @@ class View(object):
         self.rooms2["230"] = [6.931, 0.05, 7.895, 1.214, "bottom"]
         self.rooms2["231"] = [8.094, 1.214, 8.864, 1.604, "bottom"]
         self.rooms2["232"] = [7.895, 0.05, 8.864, 1.214, "bottom"]
+        #second floor hallways
+        hallways2["1"] = [.895, 4.917, 3.968, 5.183]
+        hallways2["2"] = [1.478, 5.183, 1.714, 7.382]
+        hallways2["3"] = [1.714, 7.111, 3.968, 7.382]
+        hallways2["4"] = [3.693, 5.183, 3.968, 8]
+        hallways2["5"] = [7.72, 1.214, 8.094, 4.541]
+        hallways2["6"] = [8.094, 1.604, 8.864, 1.923]
+        # hallways2["7"] = [1.103, 7.445, 3.562, 7.775]
+        # hallways2["8"] = [1.843, 5.24, 2.101, 7.445]
+        #second floor closets
+        closets2["1"] = [3.052, 4.302, 3.968, 4.917]
+
         #third floor self.rooms
         self.rooms3["301"] = [.895, 4.302, 1.338, 4.917, "bottom"]
         self.rooms3["302"] = [1.338, 4.302, 1.781, 4.917, "bottom"]
@@ -167,70 +196,83 @@ class View(object):
         self.rooms3["317"] = [3.968, 5.685, 4.576, 6.107, "left"]
         self.rooms3["318"] = [3.968, 5.249, 4.576, 5.685, "left"]
         self.rooms3["319"] = [3.968, 4.302, 4.576, 5.249, "bottom"]
+        #second floor hallways
+        hallways3["1"] = [.895, 4.917, 3.968, 5.183]
+        hallways3["2"] = [1.478, 5.183, 1.714, 7.382]
+        hallways3["3"] = [1.714, 7.111, 3.968, 7.382]
+        hallways3["4"] = [3.693, 5.183, 3.968, 8]
+        #second floor closets
+        closets3["1"] = [3.052, 4.302, 3.968, 4.917]
+
         #elevator for each Floor
         elevator["1"] = [2.738, 4.198, 3.052, 4.955]
         elevator["2"] = [2.738, 4.302, 3.052, 4.917]
         elevator["3"] = [2.738, 4.302, 3.052, 4.917]
+
         self.frame = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
-
         self.map = tk.Canvas(self.frame, width=WIDTH, height=HEIGHT)
-
         self.nb.add(self.frame, text="First Floor")
         #add the first floor hallways to canvas
-        for i, hallway in hallways.items():
-            x1 = hallway[0]/10*WIDTH
-            x2 = hallway[2]/10*WIDTH
-            y1= hallway[1]/10*HEIGHT
-            y2= hallway[3]/10*HEIGHT
-            self.map.create_rectangle(x1, y1, x2, y2, fill="#b2bec3", outline="")
+        self.drawRects(self.map, hallways, "#b2bec3")
+        #add the first floor closets
+        self.drawRects(self.map, closets, "#000000")
         #add the first floor self.rooms to canvas
-        for i, room in self.rooms.items():
-            x1 = room[0]/10*WIDTH
-            x2 = room[2]/10*WIDTH
-            y1= room[1]/10*HEIGHT
-            y2= room[3]/10*HEIGHT
-            self.map.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff", tags=i)
-            self.map.create_text((x1+x2)/2, (y1+y2)/2, text=i)
+        self.drawRooms(self.map, self.rooms)
+
         #add the first floor elevator to canvas
         self.map.create_rectangle(elevator["1"][0]/10*WIDTH, elevator["1"][1]/10*HEIGHT, elevator["1"][2]/10*WIDTH, elevator["1"][3]/10*HEIGHT, \
                               fill="#00cec9", tags="ev1")
-        self.map.create_line(1.7429999999999999,5.475,1.7429999999999999,5.9445)
+        self.map.create_polygon(stairs1["1"][0]/10*WIDTH, stairs1["1"][1]/10*HEIGHT, stairs1["1"][2]/10*WIDTH, stairs1["1"][3]/10*HEIGHT, \
+                              stairs1["1"][4]/10*WIDTH, stairs1["1"][5]/10*HEIGHT, stairs1["1"][6]/10*WIDTH, stairs1["1"][7]/10*HEIGHT,fill="#00cec9", tags="ev1")
         self.map.bind("<Button-1>", self.clicked)
 
         self.second_floor = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
-
         self.map2 = tk.Canvas(self.second_floor, width=WIDTH, height=HEIGHT)
         ev2 = self.map2.create_rectangle(elevator["2"][0]/10*WIDTH, elevator["2"][1]/10*HEIGHT, elevator["2"][2]/10*WIDTH, elevator["2"][3]/10*HEIGHT, \
                               fill="#00cec9")
-        for i, room in self.rooms2.items():
-            x1 = room[0]/10*WIDTH
-            x2 = room[2]/10*WIDTH
-            y1= room[1]/10*HEIGHT
-            y2= room[3]/10*HEIGHT
-            self.map2.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff", tags=i)
-            self.map2.create_text((x1+x2)/2, (y1+y2)/2, text=i)
+        #add the second floor hallways to canvas
+        self.drawRects(self.map2, hallways2, "#b2bec3")
+        #add the second floor closets
+        self.drawRects(self.map2, closets2, "#000000")
+        #add the second floor rooms
+        self.drawRooms(self.map2, self.rooms2)
         self.nb.add(self.second_floor, text="Second Floor")
-
-        self.third_floor = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
         self.map2.bind("<Button-1>", self.clicked)
 
+        self.third_floor = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
         self.map3 = tk.Canvas(self.third_floor, width=WIDTH, height=HEIGHT)
         ev3 = self.map3.create_rectangle(elevator["3"][0]/10*WIDTH, elevator["3"][1]/10*HEIGHT, elevator["3"][2]/10*WIDTH, elevator["3"][3]/10*HEIGHT, \
                               fill="#00cec9")
-        for i, room in self.rooms3.items():
-            x1 = room[0]/10*WIDTH
-            x2 = room[2]/10*WIDTH
-            y1= room[1]/10*HEIGHT
-            y2= room[3]/10*HEIGHT
-            self.map3.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff", tags=i)
-            self.map3.create_text((x1+x2)/2, (y1+y2)/2, text=i)
+        #add the third floor hallways to canvas
+        self.drawRects(self.map3, hallways3, "#b2bec3")
+        #add the third floor closets
+        self.drawRects(self.map3, closets3, "#000000")
+        #add the third floor rooms
+        self.drawRooms(self.map3, self.rooms3)
         self.nb.add(self.third_floor, text="Third Floor")
-
         self.map3.bind("<Button-1>", self.clicked)
 
         self.map.pack()
         self.map2.pack()
         self.map3.pack()
+        self.source = True
+
+    def drawRooms(self, canvas, rooms):
+        for i, room in rooms.items():
+            x1 = room[0]/10*WIDTH
+            x2 = room[2]/10*WIDTH
+            y1= room[1]/10*HEIGHT
+            y2= room[3]/10*HEIGHT
+            canvas.create_rectangle(x1, y1, x2, y2, fill="#0984e3", activefill="#74b9ff", tags=i)
+            canvas.create_text((x1+x2)/2, (y1+y2)/2, text=i)
+
+    def drawRects(self, canvas, shapes, color):
+        for i, room in shapes.items():
+            x1 = room[0]/10*WIDTH
+            x2 = room[2]/10*WIDTH
+            y1= room[1]/10*HEIGHT
+            y2= room[3]/10*HEIGHT
+            canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="", tags=i)
 
     def selectSource(self):
         self.source = True
@@ -240,29 +282,19 @@ class View(object):
 
     def clicked(self, event):
         if self.nb.index("current") == 0:
-            item = self.map.find_closest(event.x, event.y)
-            item_type = self.map.type(item)
-            if item_type == "rectangle":
-                if self.source == True:
-                    self.sourceVar.set(self.map.itemcget(item, 'tag').split()[0])
-                else:
-                    self.destVar.set(self.map.itemcget(item, 'tag').split()[0])
+            canvas = self.map
         elif self.nb.index("current") == 1:
-            item = self.map2.find_closest(event.x, event.y)
-            item_type = self.map2.type(item)
-            if item_type == "rectangle":
-                if self.source == True:
-                    self.sourceVar.set(self.map2.itemcget(item, 'tag').split()[0])
-                else:
-                    self.destVar.set(self.map2.itemcget(item, 'tag').split()[0])
+            canvas = self.map2
         elif self.nb.index("current") == 2:
-            item = self.map3.find_closest(event.x, event.y)
-            item_type = self.map3.type(item)
-            if item_type == "rectangle":
-                if self.source == True:
-                    self.sourceVar.set(self.map3.itemcget(item, 'tag').split()[0])
-                else:
-                    self.destVar.set(self.map3.itemcget(item, 'tag').split()[0])
+            canvas = self.map3
+
+        item = canvas.find_closest(event.x, event.y)
+        item_type = canvas.type(item)
+        if item_type == "rectangle":
+            if self.source == True:
+                self.sourceVar.set(canvas.itemcget(item, 'tag').split()[0])
+            else:
+                self.destVar.set(canvas.itemcget(item, 'tag').split()[0])
 
     def findShortest(self, source, dest):
         self.map.delete('line')
@@ -274,68 +306,38 @@ class View(object):
         print(path)
         prev = [None, None]
         for step in path:
+            #select the correct floor
             if step in self.rooms.keys():
                 self.nb.select(0)
                 room = self.rooms[step]
-                if room[4] == "left":
-                    current = [room[0]-.2, (room[1]+room[3])/2]
-                elif room[4] == "right":
-                    current = [room[2]+.2, (room[1]+room[3])/2]
-                elif room[4] == "top":
-                    current = [(room[0]+room[2])/2, room[1]-.2]
-                elif room[4] == "bottom":
-                    current = [(room[0]+room[2])/2, room[3]+.2]
-                if prev[0] == None:
-                    prev = current
-                    continue
-                else:
-                    time.sleep(.25)
-                    self.map.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
-                                         , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
-                    self.map.update()
-                    prev = current
-
-            if step in self.rooms2.keys():
+                canvas = self.map
+            elif step in self.rooms2.keys():
                 self.nb.select(1)
                 room = self.rooms2[step]
-                if room[4] == "left":
-                    current = [room[0]-.2, (room[1]+room[3])/2]
-                elif room[4] == "right":
-                    current = [room[2]+.2, (room[1]+room[3])/2]
-                elif room[4] == "top":
-                    current = [(room[0]+room[2])/2, room[1]-.2]
-                elif room[4] == "bottom":
-                    current = [(room[0]+room[2])/2, room[3]+.2]
-                if prev[0] == None:
-                    prev = current
-                    continue
-                else:
-                    time.sleep(.25)
-                    self.map2.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
-                                         , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
-                    self.map2.update()
-                    prev = current
-            if step in self.rooms3.keys():
+                canvas = self.map2
+            elif step in self.rooms3.keys():
                 self.nb.select(2)
                 room = self.rooms3[step]
-                if room[4] == "left":
-                    current = [room[0]-.2, (room[1]+room[3])/2]
-                elif room[4] == "right":
-                    current = [room[2]+.2, (room[1]+room[3])/2]
-                elif room[4] == "top":
-                    current = [(room[0]+room[2])/2, room[1]-.2]
-                elif room[4] == "bottom":
-                    current = [(room[0]+room[2])/2, room[3]+.2]
-                if prev[0] == None:
-                    prev = current
-                    continue
-                else:
-                    time.sleep(.25)
-                    self.map3.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
-                                         , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
-                    self.map3.update()
-                    prev = current
-    def tick(self): pass
+                canvas = self.map3
+
+            if room[4] == "left":
+                current = [room[0]-.2, (room[1]+room[3])/2]
+            elif room[4] == "right":
+                current = [room[2]+.2, (room[1]+room[3])/2]
+            elif room[4] == "top":
+                current = [(room[0]+room[2])/2, room[1]-.2]
+            elif room[4] == "bottom":
+                current = [(room[0]+room[2])/2, room[3]+.2]
+            if prev[0] == None:
+                prev = current
+                continue
+            else:
+                time.sleep(.25)
+                canvas.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
+                                     , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
+                canvas.update()
+                prev = current
+
 if __name__ == "__main__":
     view = View(Controller())
     tk.mainloop()
