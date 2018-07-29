@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import time
 import collections
 
@@ -292,15 +293,23 @@ class View(object):
         item_type = canvas.type(item)
         if item_type == "rectangle":
             if self.source == True:
-                self.sourceVar.set(canvas.itemcget(item, 'tag').split()[0])
+                clickedItem = canvas.itemcget(item, 'tag').split()[0]
+                if clickedItem in list(self.rooms.keys()) + list(self.rooms2.keys()) + list(self.rooms3.keys()):
+                    self.sourceVar.set(clickedItem)
             else:
-                self.destVar.set(canvas.itemcget(item, 'tag').split()[0])
+                clickedItem = canvas.itemcget(item, 'tag').split()[0]
+                if clickedItem in list(self.rooms.keys()) + list(self.rooms2.keys()) + list(self.rooms3.keys()):
+                    self.destVar.set(clickedItem)
 
     def findShortest(self, source, dest):
-        self.map.delete('line')
-        self.map2.delete('line')
-        self.map3.delete('line')
-        self.drawPath(self.controller.findShortest(source, dest).nodes)
+        all_rooms = list(self.rooms.keys()) + list(self.rooms2.keys()) + list(self.rooms3.keys())
+        if source in all_rooms and dest in all_rooms:
+            self.map.delete('line')
+            self.map2.delete('line')
+            self.map3.delete('line')
+            self.drawPath(self.controller.findShortest(source, dest).nodes)
+        else:
+            messagebox.showerror("Invalid Room", "Sorry! It appears the room you entered is not valid.")
 
     def drawPath(self, path):
         print(path)
@@ -319,6 +328,7 @@ class View(object):
                 self.nb.select(2)
                 room = self.rooms3[step]
                 canvas = self.map3
+
 
             if room[4] == "left":
                 current = [room[0]-.2, (room[1]+room[3])/2]

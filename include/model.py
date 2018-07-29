@@ -22,7 +22,7 @@ class Model(object):
         self.graph.add_node("110C", neighbors={"110A":1})
         self.graph.add_node("110D", neighbors={"110A":1})
         self.graph.add_node("110E", neighbors={"110A":1})
-        self.graph.add_node("male_1", neighbors={"109":1, "female_1":1})
+        self.graph.add_node("male_1", neighbors={"109":1, "female_1":1, "108":1})
         self.graph.add_node("female_1", neighbors={"male_1":1, "111":1})
         self.graph.add_node("111", neighbors={"female_1":1, "113":1, "114":1, "112":1})
         self.graph.add_node("112", neighbors={"114":1, "111":1, "118A":1})
