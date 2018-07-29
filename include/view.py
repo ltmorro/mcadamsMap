@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+import time
 import collections
 
 WIDTH = 1024
@@ -142,30 +143,30 @@ class View(object):
         self.rooms2["231"] = [8.094, 1.214, 8.864, 1.604, "bottom"]
         self.rooms2["232"] = [7.895, 0.05, 8.864, 1.214, "bottom"]
         #third floor self.rooms
-        self.rooms3["301"] = [.895, 4.302, 1.338, 4.917]
-        self.rooms3["302"] = [1.338, 4.302, 1.781, 4.917]
-        self.rooms3["female_3"] = [1.781, 4.302, 2.273, 4.917]
-        self.rooms3["male_3"] = [2.273, 4.302, 2.738, 4.917]
-        self.rooms3["303"] = [.895, 5.183, 1.478, 5.668]
-        self.rooms3["304A"] = [2.713, 5.183, 3.693, 6.130]
-        self.rooms3["304B"] = [2.713, 6.130, 3.693, 7.111]
-        self.rooms3["304C"] = [1.714, 6.130, 2.713, 7.111]
-        self.rooms3["304D"] = [1.714, 5.183, 2.713, 6.130]
-        self.rooms3["305"] = [.895, 5.668, 1.478, 6.132]
-        self.rooms3["306"] = [.895, 6.132, 1.478, 6.586]
-        self.rooms3["307"] = [.895, 6.586, 1.478, 7.382]
-        self.rooms3["308"] = [.895, 7.382, 1.74, 8]
-        self.rooms3["309"] = [1.74, 7.382, 2.27, 8]
-        self.rooms3["310"] = [2.27, 7.382, 2.727, 8]
-        self.rooms3["311"] = [2.727, 7.382, 3.173, 8]
-        self.rooms3["312"] = [3.173, 7.382, 3.700, 8]
-        self.rooms3["313"] = [3.968, 7.480, 4.576, 8]
-        self.rooms3["314"] = [3.968, 7.027, 4.576, 7.480]
-        self.rooms3["315"] = [3.968, 6.545, 4.576, 7.027]
-        self.rooms3["316"] = [3.968, 6.107, 4.576, 6.545]
-        self.rooms3["317"] = [3.968, 5.685, 4.576, 6.107]
-        self.rooms3["318"] = [3.968, 5.249, 4.576, 5.685]
-        self.rooms3["319"] = [3.968, 4.302, 4.576, 5.249]
+        self.rooms3["301"] = [.895, 4.302, 1.338, 4.917, "bottom"]
+        self.rooms3["302"] = [1.338, 4.302, 1.781, 4.917, "bottom"]
+        self.rooms3["female_3"] = [1.781, 4.302, 2.273, 4.917, "bottom"]
+        self.rooms3["male_3"] = [2.273, 4.302, 2.738, 4.917, "bottom"]
+        self.rooms3["303"] = [.895, 5.183, 1.478, 5.668, "right"]
+        self.rooms3["304A"] = [2.713, 5.183, 3.693, 6.130, "right"]
+        self.rooms3["304B"] = [2.713, 6.130, 3.693, 7.111, "right"]
+        self.rooms3["304C"] = [1.714, 6.130, 2.713, 7.111, "left"]
+        self.rooms3["304D"] = [1.714, 5.183, 2.713, 6.130, "left"]
+        self.rooms3["305"] = [.895, 5.668, 1.478, 6.132, "right"]
+        self.rooms3["306"] = [.895, 6.132, 1.478, 6.586, "right"]
+        self.rooms3["307"] = [.895, 6.586, 1.478, 7.382, "right"]
+        self.rooms3["308"] = [.895, 7.382, 1.74, 8, "top"]
+        self.rooms3["309"] = [1.74, 7.382, 2.27, 8, "top"]
+        self.rooms3["310"] = [2.27, 7.382, 2.727, 8, "top"]
+        self.rooms3["311"] = [2.727, 7.382, 3.173, 8, "top"]
+        self.rooms3["312"] = [3.173, 7.382, 3.700, 8, "top"]
+        self.rooms3["313"] = [3.968, 7.480, 4.576, 8, "left"]
+        self.rooms3["314"] = [3.968, 7.027, 4.576, 7.480, "left"]
+        self.rooms3["315"] = [3.968, 6.545, 4.576, 7.027, "left"]
+        self.rooms3["316"] = [3.968, 6.107, 4.576, 6.545, "left"]
+        self.rooms3["317"] = [3.968, 5.685, 4.576, 6.107, "left"]
+        self.rooms3["318"] = [3.968, 5.249, 4.576, 5.685, "left"]
+        self.rooms3["319"] = [3.968, 4.302, 4.576, 5.249, "bottom"]
         #elevator for each Floor
         elevator["1"] = [2.738, 4.198, 3.052, 4.955]
         elevator["2"] = [2.738, 4.302, 3.052, 4.917]
@@ -288,12 +289,12 @@ class View(object):
                     prev = current
                     continue
                 else:
-                    self.root.after(10000, lambda: self.tick)
+                    time.sleep(.25)
                     self.map.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
                                          , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
+                    self.map.update()
                     prev = current
 
-                    self.map.update()
             if step in self.rooms2.keys():
                 self.nb.select(1)
                 room = self.rooms2[step]
@@ -309,11 +310,31 @@ class View(object):
                     prev = current
                     continue
                 else:
-                    self.root.after(10000, lambda: self.tick)
+                    time.sleep(.25)
                     self.map2.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
                                          , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
-                    prev = current
                     self.map2.update()
+                    prev = current
+            if step in self.rooms3.keys():
+                self.nb.select(2)
+                room = self.rooms3[step]
+                if room[4] == "left":
+                    current = [room[0]-.2, (room[1]+room[3])/2]
+                elif room[4] == "right":
+                    current = [room[2]+.2, (room[1]+room[3])/2]
+                elif room[4] == "top":
+                    current = [(room[0]+room[2])/2, room[1]-.2]
+                elif room[4] == "bottom":
+                    current = [(room[0]+room[2])/2, room[3]+.2]
+                if prev[0] == None:
+                    prev = current
+                    continue
+                else:
+                    time.sleep(.25)
+                    self.map3.create_line(prev[0]/10*WIDTH, prev[1]/10*HEIGHT, current[0]/10*WIDTH, current[1]/10*HEIGHT \
+                                         , fill="#d63031", arrow=tk.LAST, width=2.5, tags="line")
+                    self.map3.update()
+                    prev = current
     def tick(self): pass
 if __name__ == "__main__":
     view = View(Controller())
