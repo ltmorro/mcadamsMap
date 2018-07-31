@@ -1,5 +1,6 @@
 #!/usr/bin/python3.5
 
+import sys
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -70,7 +71,7 @@ class View(object):
         self.rooms["112"] = [3.936, 4.198, 4.600, 4.955, "bottom"]
         self.rooms["113"] = [2.905, 5.710, 3.333, 6.237, "right"]
         self.rooms["114"] = [3.562, 5.24, 4.600, 6.736, "top"]
-        self.rooms["115"] = [2.693, 6.237, 3.333, 7.455, "right"]
+        self.rooms["115"] = [2.693, 6.237, 3.333, 7.459, "right"]
         self.rooms["116"] = [3.562, 6.736, 4.600, 7.988, "left"]
         self.rooms["118B"] = [4.41, 1.561, 5.62, 2.52, "right"]
         self.rooms["118A"] = [4.41, 2.52, 5.878, 4.198, "bottom"]
@@ -117,6 +118,7 @@ class View(object):
         closets["5"] = [8.094, 5.459, 8.864, 5.752]
 
         stairs1["1"] = [.905, 5.24, .905, 3.987, .111, 3.987, .507, 5.24]
+        stairs1["2"] = [3.562, 7.988, 4.600, 7.988, 4.600, 8.82, 3.562, 8.64]
 
         # stairs1["2"] =
         # stairs1["3"] =
@@ -125,9 +127,9 @@ class View(object):
         self.rooms2["201"] = [.895, 4.302, 1.781, 4.917, "bottom"]
         self.rooms2["female_2"] = [1.781, 4.302, 2.273, 4.917, "bottom"]
         self.rooms2["male_2"] = [2.273, 4.302, 2.738, 4.917, "bottom"]
-        self.rooms2["203"] = [.895, 5.183, 1.478, 5.668, "right"]
-        self.rooms2["202A"] = [2.713, 5.183, 3.693, 6.586, "right"]
-        self.rooms2["202B"] = [1.714, 5.183, 2.713, 5.719, "left"]
+        self.rooms2["203"] = [.895, 5.24, 1.478, 5.668, "right"]
+        self.rooms2["202A"] = [2.713, 5.24, 3.693, 6.586, "right"]
+        self.rooms2["202B"] = [1.714, 5.24, 2.713, 5.719, "left"]
         self.rooms2["202C"] = [1.714, 5.719, 2.713, 6.586, "top"]
         self.rooms2["206"] = [1.714, 6.586, 2.713, 7.111, "left"]
         self.rooms2["216"] = [2.713, 6.586, 3.693, 7.111, "right"]
@@ -144,8 +146,8 @@ class View(object):
         self.rooms2["215"] = [3.968, 6.545, 4.576, 7.027, "left"]
         self.rooms2["217"] = [3.968, 6.107, 4.576, 6.545, "left"]
         self.rooms2["218"] = [3.968, 5.685, 4.576, 6.107, "left"]
-        self.rooms2["219"] = [3.968, 5.249, 4.576, 5.685, "left"]
-        self.rooms2["220"] = [3.968, 4.302, 4.576, 5.249, "bottom"]
+        self.rooms2["219"] = [3.968, 5.24, 4.576, 5.685, "left"]
+        self.rooms2["220"] = [3.968, 4.302, 4.576, 5.24, "bottom"]
         self.rooms2["221"] = [7.895, 4.541, 8.864, 5.193, "top"]
         self.rooms2["221A"] = [7.895, 5.193, 8.864, 5.752, "top"]
         self.rooms2["222"] = [6.931, 4.541, 7.895, 5.193, "top"]
@@ -161,10 +163,10 @@ class View(object):
         self.rooms2["231"] = [8.094, 1.214, 8.864, 1.604, "bottom"]
         self.rooms2["232"] = [7.895, 0.05, 8.864, 1.214, "bottom"]
         #second floor hallways
-        hallways2["1"] = [.895, 4.917, 3.968, 5.183]
-        hallways2["2"] = [1.478, 5.183, 1.714, 7.382]
+        hallways2["1"] = [.895, 4.917, 3.968, 5.24]
+        hallways2["2"] = [1.478, 5.24, 1.714, 7.382]
         hallways2["3"] = [1.714, 7.111, 3.968, 7.382]
-        hallways2["4"] = [3.693, 5.183, 3.968, 8]
+        hallways2["4"] = [3.693, 5.24, 3.968, 8]
         hallways2["5"] = [7.72, 1.214, 8.094, 4.541]
         hallways2["6"] = [8.094, 1.604, 8.864, 1.923]
         # hallways2["7"] = [1.103, 7.445, 3.562, 7.775]
@@ -177,11 +179,11 @@ class View(object):
         self.rooms3["302"] = [1.338, 4.302, 1.781, 4.917, "bottom"]
         self.rooms3["female_3"] = [1.781, 4.302, 2.273, 4.917, "bottom"]
         self.rooms3["male_3"] = [2.273, 4.302, 2.738, 4.917, "bottom"]
-        self.rooms3["303"] = [.895, 5.183, 1.478, 5.668, "right"]
-        self.rooms3["304A"] = [2.713, 5.183, 3.693, 6.130, "right"]
+        self.rooms3["303"] = [.895, 5.24, 1.478, 5.668, "right"]
+        self.rooms3["304A"] = [2.713, 5.24, 3.693, 6.130, "right"]
         self.rooms3["304B"] = [2.713, 6.130, 3.693, 7.111, "right"]
         self.rooms3["304C"] = [1.714, 6.130, 2.713, 7.111, "left"]
-        self.rooms3["304D"] = [1.714, 5.183, 2.713, 6.130, "left"]
+        self.rooms3["304D"] = [1.714, 5.24, 2.713, 6.130, "left"]
         self.rooms3["305"] = [.895, 5.668, 1.478, 6.132, "right"]
         self.rooms3["306"] = [.895, 6.132, 1.478, 6.586, "right"]
         self.rooms3["307"] = [.895, 6.586, 1.478, 7.382, "right"]
@@ -198,10 +200,10 @@ class View(object):
         self.rooms3["318"] = [3.968, 5.249, 4.576, 5.685, "left"]
         self.rooms3["319"] = [3.968, 4.302, 4.576, 5.249, "bottom"]
         #second floor hallways
-        hallways3["1"] = [.895, 4.917, 3.968, 5.183]
-        hallways3["2"] = [1.478, 5.183, 1.714, 7.382]
+        hallways3["1"] = [.895, 4.917, 3.968, 5.24]
+        hallways3["2"] = [1.478, 5.24, 1.714, 7.382]
         hallways3["3"] = [1.714, 7.111, 3.968, 7.382]
-        hallways3["4"] = [3.693, 5.183, 3.968, 8]
+        hallways3["4"] = [3.693, 5.24, 3.968, 8]
         #second floor closets
         closets3["1"] = [3.052, 4.302, 3.968, 4.917]
 
@@ -223,8 +225,7 @@ class View(object):
         #add the first floor elevator to canvas
         self.map.create_rectangle(elevator["1"][0]/10*WIDTH, elevator["1"][1]/10*HEIGHT, elevator["1"][2]/10*WIDTH, elevator["1"][3]/10*HEIGHT, \
                               fill="#00cec9", tags="ev1")
-        self.map.create_polygon(stairs1["1"][0]/10*WIDTH, stairs1["1"][1]/10*HEIGHT, stairs1["1"][2]/10*WIDTH, stairs1["1"][3]/10*HEIGHT, \
-                              stairs1["1"][4]/10*WIDTH, stairs1["1"][5]/10*HEIGHT, stairs1["1"][6]/10*WIDTH, stairs1["1"][7]/10*HEIGHT,fill="#00cec9", tags="ev1")
+        self.drawStairs(self.map, stairs1, "#636e72") 
         self.map.bind("<Button-1>", self.clicked)
 
         self.second_floor = tk.Frame(self.nb, width=WIDTH, height=HEIGHT)
@@ -237,6 +238,8 @@ class View(object):
         self.drawRects(self.map2, closets2, "#000000")
         #add the second floor rooms
         self.drawRooms(self.map2, self.rooms2)
+        self.drawStairs(self.map2, stairs1, "#636e72") 
+
         self.nb.add(self.second_floor, text="Second Floor")
         self.map2.bind("<Button-1>", self.clicked)
 
@@ -250,6 +253,7 @@ class View(object):
         self.drawRects(self.map3, closets3, "#000000")
         #add the third floor rooms
         self.drawRooms(self.map3, self.rooms3)
+        self.drawStairs(self.map3, stairs1, "#636e72") 
         self.nb.add(self.third_floor, text="Third Floor")
         self.map3.bind("<Button-1>", self.clicked)
 
@@ -274,6 +278,20 @@ class View(object):
             y1= room[1]/10*HEIGHT
             y2= room[3]/10*HEIGHT
             canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="", tags=i)
+    
+    def drawStairs(self, canvas, stairs, color):
+        for i, room in stairs.items():
+            x1 = room[0]/10*WIDTH
+            x2 = room[2]/10*WIDTH
+            x3 = room[4]/10*WIDTH
+            x4 = room[6]/10*WIDTH
+
+            y1= room[1]/10*HEIGHT
+            y2= room[3]/10*HEIGHT
+            y3= room[5]/10*HEIGHT
+            y4= room[7]/10*HEIGHT
+
+            canvas.create_polygon(x1, y1, x2, y2, x3, y3, x4, y4, fill=color, outline="", tags=i)
 
     def selectSource(self):
         self.source = True
