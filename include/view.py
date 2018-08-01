@@ -221,6 +221,7 @@ class View(object):
         self.map = tk.Canvas(self.frame, width=DIM, height=DIM, bg=background_color)
         self.nb.add(self.frame, text="First Floor")
         self.drawMcAdams(self.map)
+        self.drawLegend(self.map)
         #add the first floor hallways to canvas
         self.drawRects(self.map, hallways, "", "#b2bec3")
         #add the first floor closets
@@ -236,6 +237,7 @@ class View(object):
         self.second_floor = tk.Frame(self.nb, width=DIM, height=DIM, bg=background_color)
         self.map2 = tk.Canvas(self.second_floor, width=DIM, height=DIM, bg=background_color)
         self.drawMcAdams(self.map2)
+        self.drawLegend(self.map2)
         #add the second floor hallways to canvas
         self.drawRects(self.map2, hallways2, "", "#b2bec3")
         #add the second floor closets
@@ -252,6 +254,7 @@ class View(object):
         self.map3 = tk.Canvas(self.third_floor, width=DIM, height=DIM, bg=background_color)
         #add the outline of mcadams to canvas
         self.drawMcAdams(self.map3)
+        self.drawLegend(self.map3)
         #add the third floor hallways to canvas
         self.drawRects(self.map3, hallways3, "", "#b2bec3")
         #add the third floor closets
@@ -267,6 +270,17 @@ class View(object):
         self.map2.pack()
         self.map3.pack()
         self.source = True
+
+    def drawLegend(self, canvas):
+        canvas.create_rectangle(.15/10*DIM, .05/10*DIM, 1.75/10*DIM, 1.25/10*DIM, fill="#000000")
+        canvas.create_rectangle(.2/10*DIM, .1/10*DIM, .4/10*DIM, .3/10*DIM, fill="#522D80") #rooms
+        canvas.create_text(.5/10*DIM, .2/10*DIM, text="Rooms", fill="#ffffff", anchor=tk.W)
+        canvas.create_rectangle(.2/10*DIM, .4/10*DIM, .4/10*DIM, .6/10*DIM, fill="#636e72") #stairs/elevators
+        canvas.create_text(.5/10*DIM, .5/10*DIM, text="Stairs/Elevators", fill="#ffffff", anchor=tk.W)
+        canvas.create_rectangle(.2/10*DIM, .7/10*DIM, .4/10*DIM, .9/10*DIM, fill="#b2bec3") #hallways
+        canvas.create_text(.5/10*DIM, .8/10*DIM, text="Hallways", fill="#ffffff", anchor=tk.W)
+        canvas.create_rectangle(.2/10*DIM, 1.0/10*DIM, .4/10*DIM, 1.2/10*DIM, fill="#2d3436") #inaccessible
+        canvas.create_text(.5/10*DIM, 1.1/10*DIM, text="Inaccessible", fill="#ffffff", anchor=tk.W)
 
     def drawRooms(self, canvas, rooms):
         for i, room in rooms.items():
