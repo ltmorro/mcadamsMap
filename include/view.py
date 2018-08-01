@@ -18,6 +18,7 @@ class Controller(object):
 class View(object):
     def __init__(self, controller):
         background_color = "#F5F5F5"
+        button_font = "System 12"
         self.controller = controller
         self.root = tk.Tk()
         self.root.title("McAdams Hall Map")
@@ -25,16 +26,16 @@ class View(object):
         self.sourceVar = tk.StringVar()
         self.destVar = tk.StringVar()
         self.selection = tk.Frame(self.root, width=DIM, height=DIM/4, bg=background_color)
-        self.selection.pack(side=tk.TOP)
-        self.sourceBut = tk.Button(self.selection, text="Select Starting Point", command=self.selectSource)
+        self.selection.pack(side=tk.BOTTOM)
+        self.sourceBut = tk.Button(self.selection, text="Select Starting Point", command=self.selectSource, font=button_font)
         self.sourceBut.pack(side=tk.LEFT)
-        self.source = tk.Entry(self.selection, text=self.sourceVar)
+        self.source = tk.Entry(self.selection, text=self.sourceVar, font=button_font, width=10)
         self.source.pack(side=tk.LEFT)
-        self.destBut = tk.Button(self.selection, text="Select Destination", command=self.selectDest)
+        self.destBut = tk.Button(self.selection, text="Select Destination", command=self.selectDest, font=button_font)
         self.destBut.pack(side=tk.LEFT)
-        self.dest = tk.Entry(self.selection, text=self.destVar)
+        self.dest = tk.Entry(self.selection, text=self.destVar, font=button_font, width=10)
         self.dest.pack(side=tk.LEFT)
-        self.search = tk.Button(self.selection, text="Find Directions", command=lambda: self.findShortest(self.sourceVar.get(), self.destVar.get()))
+        self.search = tk.Button(self.selection, text="Find Directions", command=lambda: self.findShortest(self.sourceVar.get(), self.destVar.get()), font=button_font)
         self.search.pack(side=tk.LEFT)
         self.nb = ttk.Notebook(self.root)
         self.nb.pack()
