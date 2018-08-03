@@ -72,7 +72,7 @@ class Model(object):
         graph.add_node("126", neighbors={"female_1_2":1, "137":1})
         graph.add_node("137", neighbors={"126":1, "135":1})
         graph.add_node("135", neighbors={"137":1, "126":1})
-        graph.add_node("133", neighbors={"135":1, "131":1, "stairs4":1, "female_1_2":1})
+        graph.add_node("133", neighbors={"131":1, "stairs4":1, "female_1_2":1})
         graph.add_node("131", neighbors={"133":1, "129":1, "124B":1})
         graph.add_node("129", neighbors={"131":1, "127":1})
         graph.add_node("127", neighbors={"129":1, "125":1})
