@@ -3,6 +3,17 @@
 import dijkstar as dj
 import collections
 import itertools
+import unittest
+
+class TestModel(unittest.TestCase):
+    def setUp(self):
+        self.model = Model()
+    #function tests that every node can reach every node
+    def testPaths(self):
+        for pair in itertools.combinations(list(self.model.graph), 2):
+            print("Testing path between: " + pair[0] + " and " + pair[1])
+            #ensure that an actual path exists between two nodes
+            self.assertTrue(dj.find_path(self.model.graph, pair[0], pair[1]).total_cost > 0)
 
 class Model(object):
     def __init__(self):
@@ -154,11 +165,5 @@ class Model(object):
     def findShortest(self, source, dest):
         return dj.find_path(self.graph, source, dest)
 
-    def testPaths(self):
-        for pair in itertools.combinations(list(self.graph), 2):
-            print("Testing path between: " + pair[0] + " and " + pair[1])
-            print(dj.find_path(self.graph, pair[0], pair[1]))
-
 if __name__ == "__main__":
-    model = Model()
-    print(model.testPaths())
+    unittest.main()
