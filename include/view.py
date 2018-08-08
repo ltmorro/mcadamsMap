@@ -37,6 +37,8 @@ class View(object):
         self.dest.pack(side=tk.LEFT)
         self.search = tk.Button(self.selection, text="Find Directions", command=lambda: self.findShortest(self.sourceVar.get(), self.destVar.get()), font=button_font)
         self.search.pack(side=tk.LEFT)
+        self.reset = tk.Button(self.selection, text="Reset", command=self.reset, font=button_font)
+        self.reset.pack(side=tk.LEFT)
         self.nb = ttk.Notebook(self.root)
         self.nb.pack()
 
@@ -167,12 +169,20 @@ class View(object):
                     self.destVar.set(clickedItem)
 
 
+    def clearLines(self):
+        self.map.delete('line')
+        self.map2.delete('line')
+        self.map3.delete('line')
+
+    def reset(self):
+        self.sourceVar.set("")
+        self.destVar.set("")
+        self.clearLines()
+
     def findShortest(self, source, dest):
         all_rooms = list(self.rooms.keys()) + list(self.rooms2.keys()) + list(self.rooms3.keys())
         if source in all_rooms and dest in all_rooms:
-            self.map.delete('line')
-            self.map2.delete('line')
-            self.map3.delete('line')
+            self.clearLines()
             self.drawPath(self.controller.findShortest(source, dest).nodes)
         else:
             messagebox.showerror("Invalid Room", "Sorry! It appears the room you entered is not valid.")
@@ -214,11 +224,16 @@ class View(object):
                 prev = current
                 continue
             else:
-                time.sleep(.1)
+                self.delay(.2)
                 canvas.create_line(prev[0]/10*DIM, prev[1]/10*DIM, current[0]/10*DIM, current[1]/10*DIM \
                                      , fill="#F66733", arrow=tk.LAST, width=2.5, tags="line")
                 canvas.update()
                 prev = current
+
+    def delay(self, amount):
+        initial = time.clock()
+        while(time.clock() - initial < amount):
+            pass
 
     def initFirstFloor(self):
         #rooms are in format [x1, y1, x2, y2, door_x, door_y]
